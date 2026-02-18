@@ -1,0 +1,1790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K. Rifas — Digital Journal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --deep-burgundy: #2B1818;
+            --dark-brown: #3D2020;
+            --bright-red: #C93847;
+            --cream: #F5F1E8;
+            --light-cream: #FAF8F2;
+            --dark-text: #1A0F0F;
+            --gold: #D4AF37;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--deep-burgundy);
+            color: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(43, 24, 24, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(245, 241, 232, 0.1);
+        }
+
+        .issue-tag {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--cream);
+            opacity: 0.7;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-style: italic;
+            font-family: 'Libre Baskerville', serif;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--bright-red);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 4rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 1200px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 10rem;
+            font-weight: 700;
+            line-height: 0.9;
+            margin-bottom: 1rem;
+            color: var(--cream);
+            letter-spacing: -0.02em;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--cream);
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.2s ease-out 0.2s backwards;
+        }
+
+        .hero-description {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+            line-height: 1.8;
+            animation: fadeInUp 1.2s ease-out 0.4s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Polaroid Grid */
+        .hero-toc {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+        }
+
+        .toc-item {
+            background: rgba(245, 241, 232, 0.05);
+            border: 2px solid rgba(245, 241, 232, 0.2);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .toc-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 56, 71, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .toc-item:hover::before {
+            left: 100%;
+        }
+
+        .toc-item:hover {
+            background: rgba(245, 241, 232, 0.1);
+            border-color: var(--bright-red);
+            transform: translateY(-5px);
+        }
+
+        .toc-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--bright-red);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .toc-title {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.1rem;
+            color: var(--cream);
+            letter-spacing: 1px;
+        }
+
+        .polaroid-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 900px;
+            margin: 0 auto;
+            animation: fadeInUp 1.2s ease-out 0.6s backwards;
+        }
+
+        .polaroid {
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transform: rotate(-2deg);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .polaroid:nth-child(even) {
+            transform: rotate(2deg);
+        }
+
+        .polaroid:hover {
+            transform: rotate(0deg) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+            z-index: 10;
+        }
+
+        .polaroid::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 40px;
+            height: 40px;
+            background: var(--bright-red);
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            z-index: -1;
+        }
+
+        .polaroid-image {
+            width: 100%;
+            height: 150px;
+            background: #e0e0e0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #999;
+        }
+
+        .polaroid-caption {
+            font-size: 0.75rem;
+            color: var(--dark-text);
+            text-align: center;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Contents Section */
+        .contents-section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            background: var(--dark-brown);
+            position: relative;
+        }
+
+        .contents-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contents-hero-image {
+            background: black;
+            height: 600px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .martini-glass {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .contents-list {
+            padding: 2rem;
+        }
+
+        .contents-header {
+            margin-bottom: 3rem;
+        }
+
+        .contents-header h2 {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .contents-header p {
+            font-size: 0.85rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .issue-badge {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            border: 2px solid var(--cream);
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+        }
+
+        .content-item {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(245, 241, 232, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .content-item:hover {
+            padding-left: 1rem;
+            border-left: 3px solid var(--bright-red);
+        }
+
+        .content-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--cream);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .content-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .content-subtitle {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--cream);
+            opacity: 0.6;
+        }
+
+        /* Logbook Section */
+        .logbook-section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            background: var(--deep-burgundy);
+        }
+
+        .logbook-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .archive-badge {
+            display: inline-block;
+            background: var(--bright-red);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .logbook-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            font-style: italic;
+            color: var(--bright-red);
+            margin-bottom: 1rem;
+        }
+
+        .logbook-subtitle {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .experience-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            gap: 3rem;
+        }
+
+        .experience-card {
+            background: var(--light-cream);
+            color: var(--dark-text);
+            padding: 3rem;
+            position: relative;
+            transform: rotate(-1deg);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+        }
+
+        .experience-card:nth-child(even) {
+            transform: rotate(1deg);
+            margin-left: auto;
+            margin-right: 0;
+            max-width: 90%;
+        }
+
+        .experience-card:nth-child(odd) {
+            margin-left: 0;
+            margin-right: auto;
+            max-width: 90%;
+        }
+
+        .experience-card:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+
+        .experience-card::before {
+            content: '';
+            position: absolute;
+            top: -15px;
+            left: -15px;
+            width: 60px;
+            height: 60px;
+            background: var(--bright-red);
+            clip-path: polygon(100% 0, 0 0, 0 100%);
+        }
+
+        .card-header {
+            border-bottom: 2px solid var(--dark-text);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .entry-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bright-red);
+            margin-bottom: 0.5rem;
+        }
+
+        .company-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .job-title {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .date-range {
+            font-size: 0.85rem;
+            opacity: 0.7;
+        }
+
+        .experience-description {
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+
+        .quote-block {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            padding: 1rem;
+            border-left: 3px solid var(--bright-red);
+            margin-top: 1rem;
+            background: rgba(201, 56, 71, 0.05);
+        }
+
+        /* Yellow Sticky Note */
+        .sticky-note {
+            position: absolute;
+            bottom: 2rem;
+            right: 2rem;
+            background: #FFF8A5;
+            padding: 2rem;
+            width: 220px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: rotate(3deg);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-text);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        .sticky-note-signature {
+            text-align: right;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Leadership Series */
+        .series-section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            background: var(--dark-brown);
+        }
+
+        .series-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .volume-tag {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--bright-red);
+            margin-bottom: 1rem;
+        }
+
+        .series-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .magazine-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .magazine-cover {
+            background: var(--deep-burgundy);
+            border: 1px solid rgba(245, 241, 232, 0.2);
+            padding: 3rem 2rem;
+            min-height: 500px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .magazine-cover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+        }
+
+        .placeholder-tag {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: #FFF8A5;
+            color: var(--dark-text);
+            padding: 0.4rem 0.8rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            transform: rotate(-3deg);
+            letter-spacing: 1px;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--bright-red);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+        }
+
+        .cover-edition {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+        }
+
+        .cover-image-placeholder {
+            flex: 1;
+            background: rgba(245, 241, 232, 0.05);
+            margin: 2rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px dashed rgba(245, 241, 232, 0.3);
+        }
+
+        .cover-subtitle {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .cover-details {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
+        .barcode {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 80px;
+            height: 50px;
+            background: repeating-linear-gradient(
+                90deg,
+                white 0px,
+                white 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            opacity: 0.8;
+        }
+
+        /* Toolkit Section */
+        .toolkit-panel {
+            background: rgba(43, 24, 24, 0.5);
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .toolkit-header {
+            color: var(--bright-red);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-bar {
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .skill-progress {
+            background: rgba(245, 241, 232, 0.1);
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .skill-fill {
+            background: var(--bright-red);
+            height: 100%;
+            transition: width 1s ease;
+        }
+
+        /* Education Section */
+        .education-box {
+            background: var(--deep-burgundy);
+            padding: 2rem;
+            margin-top: 2rem;
+            border: 2px solid var(--bright-red);
+            color: var(--cream);
+        }
+
+        .education-header {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bright-red);
+            margin-bottom: 1rem;
+        }
+
+        .education-content h3 {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--cream);
+        }
+
+        .education-content p {
+            color: var(--cream);
+        }
+
+        .verified-badge {
+            display: inline-block;
+            border: 1px solid var(--cream);
+            padding: 0.3rem 0.8rem;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 1rem;
+        }
+
+        /* Skills Section */
+        .skill-category-box {
+            background: rgba(245, 241, 232, 0.05);
+            padding: 2rem;
+            border: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .skill-tag-item {
+            background: rgba(245, 241, 232, 0.1);
+            padding: 0.75rem 1rem;
+            text-align: center;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(245, 241, 232, 0.2);
+        }
+
+        .skill-tag-item:hover {
+            background: rgba(201, 56, 71, 0.2);
+            border-color: var(--bright-red);
+            transform: translateX(5px);
+        }
+
+        /* Contact Page */
+        .contact-section {
+            min-height: 100vh;
+            padding: 6rem 4rem;
+            background: var(--light-cream);
+            color: var(--dark-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-left {
+            padding: 3rem;
+        }
+
+        .contact-header-small {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: #999;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 3rem;
+        }
+
+        .stamp-image {
+            width: 100%;
+            max-width: 500px;
+            height: 300px;
+            background: #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--bright-red);
+            border: 3px solid var(--bright-red);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .stamp-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transform: rotate(-10deg);
+            opacity: 0.3;
+        }
+
+        .contact-info-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-info-item strong {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: var(--bright-red);
+        }
+
+        .contact-button {
+            display: block;
+            padding: 1rem 1.5rem;
+            background: white;
+            border: 2px solid var(--dark-text);
+            color: var(--dark-text);
+            text-decoration: none;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .contact-button:hover {
+            background: var(--bright-red);
+            color: white;
+            border-color: var(--bright-red);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 56, 71, 0.3);
+        }
+
+        .contact-right {
+            background: white;
+            padding: 3rem;
+            border: 1px solid #ddd;
+        }
+
+        .classifieds-header {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--dark-text);
+        }
+
+        .classified-category {
+            margin-bottom: 2rem;
+        }
+
+        .category-title {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bright-red);
+            margin-bottom: 1rem;
+        }
+
+        .classified-link {
+            display: block;
+            color: var(--dark-text);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .classified-link:hover {
+            color: var(--bright-red);
+        }
+
+        .cv-download {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #ddd;
+        }
+
+        .cv-download a {
+            display: inline-block;
+            background: var(--deep-burgundy);
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            transition: background 0.3s ease;
+        }
+
+        .cv-download a:hover {
+            background: var(--bright-red);
+        }
+
+        .copyright-notice {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 2rem;
+            line-height: 1.6;
+        }
+
+        /* Contact Form */
+        .contact-form {
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--bright-red);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            background: white;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            color: var(--dark-text);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--bright-red);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-button {
+            width: 100%;
+            background: var(--deep-burgundy);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+
+        .submit-button:hover {
+            background: var(--bright-red);
+        }
+
+        .form-success {
+            background: #4CAF50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .form-success.show {
+            display: block;
+        }
+
+        .reserved-space {
+            margin-top: 2rem;
+            padding: 2rem;
+            border: 2px dashed #ddd;
+            text-align: center;
+            color: #999;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-brown);
+            padding: 3rem 4rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 2rem;
+        }
+
+        .footer-meta {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        .footer-location {
+            text-align: right;
+            font-size: 0.85rem;
+        }
+
+        .footer-tagline {
+            font-family: 'Libre Baskerville', serif;
+            font-style: italic;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-copyright {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(245, 241, 232, 0.2);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            opacity: 0.5;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-title {
+                font-size: 6rem;
+            }
+
+            .hero-toc {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .polaroid-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .contents-container,
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+
+            .magazine-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .education-box {
+                grid-template-columns: 1fr !important;
+            }
+
+            .skill-category-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-toc {
+                grid-template-columns: 1fr;
+            }
+
+            .polaroid-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .logbook-title,
+            .series-title {
+                font-size: 3rem;
+            }
+
+            .education-box {
+                grid-template-columns: 1fr !important;
+            }
+
+            .skill-category-box {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Additional responsive for skills grid */
+        @media (max-width: 1024px) {
+            section .skill-category-box {
+                grid-template-columns: 1fr !important;
+            }
+            
+            div[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        /* Interactive Elements */
+        .interactive-cursor {
+            cursor: pointer;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-5px);
+            }
+        }
+
+        .scroll-arrow {
+            width: 30px;
+            height: 30px;
+            border-left: 2px solid var(--cream);
+            border-bottom: 2px solid var(--cream);
+            transform: rotate(-45deg);
+        }
+
+        /* Page Transition */
+        section {
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="issue-tag">ISSUE NO. 001</div>
+        <ul class="nav-links">
+            <li><a href="#work">Work</a></li>
+            <li><a href="#journal">Journal</a></li>
+            <li><a href="#info">Info</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; margin-bottom: 2rem;">
+                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAAAAAAZai4+AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfqAhEBOQjo855hAAAmi0lEQVR42lW82bJkSXIkpmrmJ+JumZWVtaA3NLobMkNwRijgw3wDP5BfQvKFj/wDipCUkQHQwPSGXmvJ9S4R55gqH8xP3OyUkqqUyrwRftzNzdRU1Q7/V8MH2OZGQLbtSicVgOnT703ZSFkkiLRHENjS5/WsMoIjMxARLCRoEAQIkABAwwjYRgRgkjBoA4CB+Z/9H4ocpsMk4BosQ0pTJISESAqwIQKmaYgBEzLs82k9OQ4DIAOkQJMG4DBAAO6V9R8QDhA2oQANmvt69l9EAANRpAUCIkUEAUDMYlABe99FQmQANgqw1jdvT6ezMPJ4c3t7HFXBAKu/jOBclNFbM3eHmGvcN4oGHKYREAEAo0BUpO0UHYZNIwgEDQMWYbo4H8kGyFCtf/jmJAPYeP/94eaLV9c21UfIuUsATVD95fTlVPF8dp7Hrl64CWAY4aRgBsKCCMQ8ZjosGYbt6Ac3aHndrHffVPZnkdzefbj96qtFARB2Un2CJmmGQcCgETQ9gw69oPkne4SZ4ABL0asPGmRYJIEQ+pmVUG8aBJjw++/uVwTIXjIMkP7w/i8/fz3DAw4aIEib6EWEER1nJEzDgf7DsC9LpAGMtAluZC+0ALIfFWTYsGj10ffjvv/DmwpiXJXUa5i7yA//9Sc/jf0B3Y9wiWTTCZP9sCbhQPRZzxDkvCrmIINGUARIa553wDBtWC7ackARzvrj75+SAPL4ZEJ9zYOWQf32/u8PZtgzrmd0g73ZBNzHTJvROcCep7lHmelB04EQQMp2JxaYJsowUAGBrgCMx9/9hWkakbnUphQhQ2BAYn67/f117PeNIE1eMlmnBwCgCIGd3Xo1npkDhBkMYrBKsOwK20BEbwIBYJNsQbL9+Ku/dMzC64lXHTg5MiEhw5Vv//UJMe/rTAm+JNdAEKSBIPsv2QwYAMkIcg9DkqvAAKBeLPZnM+ygVZYlqNZ//z46EIjt4YyrZbk6HgetCNiRqHj/Lx9kBgGbvmTTDtaOkBlPjP5/ILl/cZAEOYywTdozvDss3emYpotimFTFH78JzMIRYOXNiwHi8elp7VsUKOWHf/6PL5idA+aiEN7TBZ6vAWf+8h438zBTGOC+KTABxv5Rmr+zZIOw9O5PHTZ2ABG3tzdXZGC9f/jwtBoGglXx8K//cI3sT+nk63n5ZmR4hv+euMx4jhna9AgrwIAoQzRAa6ZOhWO15VBQfvjtTN0kmNcvX784EkP0q6f7N+8eC4Yjpfzwy/9Ej5mC2LkHvKTOXsheB/peQH01eqUxAHVFB2zSse4Z19lxUBQpur5Zw+xblNe3n39xd5UiifLtZ5+///b7k5QGouLdL/8hlehz6YrTdXK/cfC8pDNQjQAsdOUyBjhAVqOXEItw0l1VTAUqXAHEm7cx82Ic7l5/+fJmya7CCdXh5ub2zfuTiDArv/23/8HuXMmK+V3oRNb5zL19XbBp9oXdMcjobAJY+61xghD7M0OWTMOnb/tIoLz+4qsv7paMfniEycgcx+Xd0xZhhfJPNz9TQkEw+3RmFO1YjNjTu91Xak/+hDEiQEkU5DRmdHcJ6OeQDMLvVpoBmscvf/L6OiPhxgowyMQNwHePEklt+Zu7r7clBE7gZfNSHBvn0J6HGH0ZiEv0jZjZH0KINm0lZGpWSVQAa2zvTJJkjVc//uoqs1HdftUhLld3JTyWiYDrl7e3jolxuGdUTIRhzzUQ8KzBhGOmTkd2IZTKcMEAkhAMW3DBVbb0cAqSTOPm6y9uDoeREezc5/7uWK5uX9wcg2AkcP9PK9Q7wJk0vQOsPkVeMj0u12wudQg2XbAJcpvQmyzuH6UygY8VhBNeXn19OzIJCw5D6GNS4kpW1WpA4fzul/8wOCPqEuodZ+Z+qL7AfgC00LB1FAwZJEOzjJGA4LDhji3m6cGmA9LNly8z81KiumGwlzJxjdoKmxiC84/H/zj3CROy75jUMBwdA7wA504oJBwDhmCwgobDZrqPco9MieLjSpiIFXevl4Xzsnc5EwwpCnlErSdxVaRA/ubqZ+K+/xdcNZcSlzz2DKN3TOdRrHk/ygGA4YYXFMAQbIXw5LQiXIfPbpN9pTh7CJoIrR8/KK4ON0+rZTME5K+uflg7fLngVjw/VLcbe1mc2NndYkQhvBkIz5Dz3DdotmpR587X5evPR3KvnJ4dhPz08e27ejE+CIejpDJpxfLLq89rxo89e7oJembG9+U+91J9Qaey4b0sgaA7Hp0OFArwWgQYedbdXXAvdH3PSfrDm+3h8MMb6f49j5tLoultu/tv//hi208IF0zxXJT/aiN718LACBcJge52ID3zPQmjKIrUKoAIF18eAyQTMILqG3L6uPGL1zdy5bLwDG02EHVabv/rf0nR3lHMHl1+Xqb3uzC7S5oYxrAm5giLRHUHZQNy57rYYEL0enMTZOTsa4KyYZ15d7wZVeetxkucdHWy7Qg+Xl/9v//zflb7OZVjb8g+yVnc05lNjDDLiAJhiEQFAnsnOY9+W20LlK+PCTIgaPMIssvCTeT6tN2vpxrXy90ZVyXRYb7526f/7x+1HyGxZ/d9Fdhbnh3jNbQYxuZw0TCc3VPTCnf3Q4dlbYVQoLAsSdJ4/PhUx7tjErYViacPD9+9zW29/bvjcnt/sz6FDerw7Q+++af/tPbtM8i9C/O+tr3nAY3Yu8XhoCwaCjhlsxM3EV18UIQ1U15eJUmevn17dtw4ESnJpe39N/9u4Pr6q1fFbePtWobDGN/+8M+//rt1Z0nMC8Dfs2hnx0uuhQiMgIuwyIrZNQOGzeqrK8Pae6a8TsZ4/O9veHd9dbXAJAPQevpwf4wXdz88rr4uqK5P91lwbKPe/uJXL15vl++lvS/w+Q5eEMTcrkHV/kek1cUq+0fphtkWaNnwSCPrV9tPjscFpDwiSrAe/vziy+WLGysgX9f6eP2olFFPL08ff/JvL2PvJi4tfScjX0DIpQ8PAGP2qACCXfDRjSrpSlJuBiLBKDPg8SZ/9MpbbRsIRtIOjJ9f+5An8ZBadXWzXR0eSVTef5Hvf/zZ736xxh7j3vP+jpd7A/HJLw/ttF/fCIMd6pfL0z/D2aUH8fj2y1eQt4cnH5bibWRm3hWgNQ8jWbKPBx2eEJD89lW+/fI3D0fvBZDu5OTLldyTxAXBcSC63WFdLkV0AXBRBmyrmx0bKPrx9jPg9O67x21Zrj7jYYmIoWXpthgCyOW6jmMNh/H+xeD5sz//fN1BxCWHTVjBZl2aEJDY/FajHgpC0KYwSSRMZANMThGGCjVeHf3Nn373ffjLyr/PU4A5BI7skhLDeajTIdcKEH7zlR9f/n7lXMHkCp6bxEkPzqsaNHtZdsBCNKrr5wUcBc/s1UXThqt8uzy9/+XvxBz8/NUYROSQVXAEQSYM1vEYdirM++sXV1jefa7n1mL2hP4ke31SfgCMsPvM0uqyHf0ETetETUYYjKK0GuT2L/+qH90dr25GLMdkRBCmRQcc1iAPh+vjvQHkhvur0PL+CwGeLEinr0+ZzEv66Ms6bKPpPuRs+y/UryiAzVt2RfJaUMUP8KPPj15P6+F6ZD+0t7ETSCl4HI4v3rhCSa2PdTg8aIb8HmL2fisvqX6Gm4EBIEJANKUXQMwM4mbHskMyEgBUMlxf/23CT+c6Xkdz4cjaVi/XS/bVDY7D3dUHhQWe339xOLxbD/IzivGl7nTbNEvjvuahvho7WQeHOgQtGKHJeM8M47Vg5eJtXVfejMAYKER4CHrUzZIAouxYbj67d+/AFtuxng47/tx7pQugmTwzLiQTBhQKtsIg0CEkoL4pkjkmy99QZ9tcI0pC5kIxUjBT8BJcYtMYAVPgWG6Pp/7uGhE87Vh57kgvxrHDm7mJ/ZvBBCBkcxAtbgQdMsTmBmerZNtR57LNXGDYEXyqXJb5CJnEVjlARnp5cThBCILnZDxXxQa0l0T/SdTP1SmGPe+cEPCux1C7PtK18PIBtcqRQpCWjO3jcRlDcN2fjwcEo87rgWmjrtI2FfZ2XvJpZvXn4nNpNOYNeG7SPSBADjgkoiGMAhTCoKzMHQQZQN3LGZO5Z9XpfPei7kt1yrsgISbvzy+GheXYewzrac1N4qRbLtBvT6GzTD+jaQ0DVjZ/0x2jDWHvyBwxI7GDsj6cBOfOrW510McPHPQ4dOdb28P9LVKFXIZFwYo3nx+2WzVIwd5m4zlfNBc0aXPDHDakMCiC3UrDDgSa1laEu1wYtv3w4fMiMwxKJR6jblJKQPb68P7tfV6/cERQzcXSxPbuFgsrorn+PW9e7uFeEWfqIEaGwZj8DGCE0MeKhlr9FBeu/fT936wjMyi5qpiR3fuRH948rE9/vPny9aSxbEUnHN3/+WrBpxzPDgjjGXFNsEKBGKADakWsJJIgBBtbAGgFCpNqsazvH0otoQnSYekCraf7tx+OX796/3Z58bLZamtVNG+ynd7+KGef9ymw6lXG7Gfn+kh6GLPpojm0yQ6SdjEm9pgUfl8kLafvfijQsA2NJYPUw9s39/rsFz9Y4s91+9mhABjL8bw3NT7x/ouK5zbHuJA3DiO0877oVmuYJqKcNoBMFQwzNNFQZFiB+ddR4HdP1ypQ1uYMMj7+5cP5+ufxH/Lh/te/e/n6liMgMB8/5hRJx/nu+O4Huqh/3LkIGp+ms8sODiNITz7ERFJuyCWE1czK7IlN45zfvn2tqoA3KRnbn99/9uOvrn/w/SF//8/f8+71AQiQjm/Py0QJjseXH757HZ5SNP9KnN6hIS/Cj4dJI7zzrIoAqgkkFoitZrV3FGFvW741bFnyadP3/y3/y3/WYX3y7//8W1/j67sdFmx/wN7KmE9//tm3+nLnsiZ5e7mMkzttUCHDY1Ikl00UnFSZikK0jLWLgIBRxsN2AGAx6i9Pb747vvun6/d6evuRh2O8+KzFdRDf/iVnV2ED3/zoi7ffvzgQQouEl4PrCJsouDkGjIi9rTBBhA2BFGnWXwWooxDC493HD3eQBxB3D3z1N29//bsrh+M2x/XdsWVVWfHr86GbZQaAhz/+4tX50YwYLT1550c0A/eZ8oJHRFFFRZiaIqOnfEo3f9+5P/sZ6zz+8vUYFYt4/Uo3sZ6fykbwcDwO92eo4v1v0zuBCwDfvLx9IS8Ru+50IYkm4TWJBgjEaDEAhiuj+2dKE9W6kX1/TtPJwjnX7/8GCaTHzUNc3aSrXGYSUgdJbcsvPxz6mCa78/AhHv5m1rLnvOpLpzgjyxM0BxvzmJYVLcFWs76IPcPs7R2I7deHN1+M7iOvtJnIAZegqv1nNn77y3EJ4g7K3y/vxtciOZuHPaldUDNszXMcM3YMplfBpMqEHIapnSR2VwKDzvf/z79s/7gRIMb1eaMdFKy1diNBFf7t/tipoTNPiE//cvUDxEWq4IXABdBVrkmdFkCbvmFJsSTaMwMmMRzcUWyTX60YetTb/+vfU7TJcTVIrWV7w3IYkZl01Ye1BcUgPeOLvP68om/WRHm9oP3wJs/CIIIBRCBoyZlj12JphJAXooyUpyprHj7+n9+zLCBzjIywhFxGZo4RrHU9LXv3FzDhgunjqi77U5klY2dxyeCuHEAOOsFsQdTljtCMpgat3cvgFhjd8FDLX/6PN+kEwBHMETHGccnlcBwBrbXp2JTpXvmAAD7Ya5C7FaHLxzOZjl0+iLYJqLLruOpMkqiIXXjqMIcMF8mQAFPLH/6338W2qSQwYgxmjkGrtu1ctg/HblO0k9GBuP/zUpgndukWP2G5LnwlQ2GEy6QtqZOTNrMsTsZkXpYShTSDoA/f/O//91YF1CaDmZnUup5Pp9MZNJZrTxIIXfZxJH//cdnsPXE2VtrX6BmKAID8X7onY1iQMqSGluRsafXb94HUTqrH7rzI9TeHlwTp2iSQWs/buq3r6lAV7t9eBM1QgBihk78KB8hOIzPA2u0w+4U+0xE2g6kQVhBbWopR0VrVPML2+KASypiavFK/ufvyalmSWtubsVWpGhSRd0MzozhRwz4P5p9/8LUdO7l18UVdavUOwwZdpMGtStFtK1Hq+yry0qH3D8rsDAba7+9vQtvICNbazgSR4QIC14cHCk4AiqpmvtZfvbyaFMqeRT+thZdfI2I2iK42JDDA4ijvN3d3+IlwyGQh+wBO959XwE3YdeFJ0JvJsR5vHmBMYiysDB82ffenX9Sl77yAQPPZ+9J9YlCRhiAYAYajxE5KHUttTJnccAhMqZ0HdT5dDbfRzFPEpFaHFzBvCAXlBMywFp7T+M3Ll8Dg7hXZJb2//sWwLAxmVWBEOoPJyNiraD7tDBGjM8fMrAC0at1a3Q1GRNB2MTPTwbsQ0HUuLGj9LBW4/9Opq0eDK19sg5+2sA6s5e10Oss8AnGAfVgGeaBtSXxicqcstCkId8SRPjnb8eU+ftuFjAiDuBnTACaYJNePL03qu02rNHPCzJ+TYphNsa3w5tpO5wcNCgOlZeAwDoc8BhHsni3QpCa9Kri7LRE4c6FmShx9AxFjkJFxuGmhwdNdEB/roIwPf9nuH3aSWZNTm9vanokoPMJWWQxAdl4fD0tgQR4Tgs2FewdrslbtIicBcvNyCAtQAWZGHkYAiIh81a1cux4J+OH1ksA73+Yzl+TnbdPea5iDUS26FoNwZtlwRmI5n7eyYzdPRIFpbXnp90a7FrK/1nEEPLxJRgX82fVTACLaFmI++Ms3odP6wqFn48in4joxNZ+2jOWuwG8sMykjnIsFX9vRltGozlyRveNxXDa5ktkcCrkJqCqTuUVeffnbNoEp2l/EP/34Je5PJ4Un+9dwcEeLdAvnRGxQeVnQtybj7IDACDKWgGuJC9WM2QPVWmAwDgs3d2oQrG0rad06PJAjX38uzsPpAKtvaymH69n1eWm7dk9U5y1ZWPLBTcYqlumQ2BZCB3mraBSihbkxNsKwHMFxfd0/hARgQZBnZTYil+MPTqfmjsR2VD55iSV46TLwqYyH7k4JIMI4cDseAgjl0WWmJ9+SZFgD0CTywzkmXchcrm4PkOxp8rTmvWuPNDMP1690UU0sEVU4HpadknQbg+SdcCRnzzWsJat9QSbNbAx6MRDr6lpd7TVW0kkLGTmOh+urEZZJKGzXhWm3EI7MZXlV31XsAp1J1PlweyMG2yjYLcKlgd5LLwYoFxWmI62kLbrCKazFzOaVgNhufQIRRqbyxc3LuDpepSTebo84wDANJlAxdHz88vqbB0a7wahA+cXrp+txUVP0LGXsAgcMDhClRZVx2FJx5kKwaK8BgTKCLZKN0/V6biIMh88/u7uyx7Kg1lYmL8yV24EYW4xtyeXm+++2jII9oHA95IJKd45uau9iSOqG2eTYmDXsZGLASBjLhihYILemTGVru/Ia3mJZDsebu5tlLPG0MUhvkdmk3MXYynCQw0eex9WLb94PCtwOUvjDr/+ngV29dDQt6Rn8FkhKgyHokLZR3Aopb4hCbTm8iWS6AMQ6rvFOd7c319e3x4VRXIDalk4PQWiiRkIMcWizr5mbXt1+/308JVVZJr755/9xNCO5M7uXpDrvGjnA4sgKMkRuucbmUTictqNdMOxqce8x1/r61fXVcjwuGSHxamlf6A7aOVNb2MgCCosPiRo/ePn439tiBWnE769/7uSliO1lSDs7TnhwFQ7Emq4ULCjWLfyw6inAbJO3AB3q/fVPXxyvlqtl5KBJprgoCkkgHLbN9jFKdLAWBIIY57w+fPso1/Cw+Kvrn3KcFl5UMrff/2Lj8hBIewFYm5LKNaQRq0p2LAasTZF1//JvPr8Zh5FjLIymW0dpdMbaRUgSrKYvQzqYCTBzHcvt/dv3p4355ceP+KV/cBy7ZBGXbnK3vwIDGCoehimHbfhp+LwEItZ185C4OVH51Y9uMkeO4JIGzbSRWyc4s4IC7ZZkCBjrgfIgiMhti+X2i/fvT6cPP337l/Mv8bfUsdCVeWqwhhxQFx9gGOuggRBiZZg8McncoG2DnKUvfv4KjGBEQpjUiYJDvtjioFY+YIXkdcRmawDg4NjWWG6/vP/4qP9896vzH34O1tTJJ8WMnTgFMEZCXCuHBVWLP+BwDTHNVfl0Pr762Q9jayO51yEFOQAJAaJSTGCX4BRyCOvGLMGbGkQikFWH69f8iT7H9x+++UGDCM/JoKlhTw/ZOMgssQgssUJAo3OXwdg2rE8//dkXi5C7m3fLKIQDRoFBnJchhJ1WEC6QXjczRKC22apA4kBCb5Z6/fp3vz5+FnY3BXagOAHU5OUbaJv0VhGS0zgnqHIgsG1/f8RWjbYjCFVVFoIktGUy+PDZ8WNwJC2GSG4EwxIMb5JMWhm5ZNDb6bjxZ3ryMmLsxgND06BHCBgrwSGhp0Nqz3HUFrVtBA+H4qFZKAvJTFdlQwVYm0fEuxy65plWOER42eRSq7+REsyFyxgLrbQWu3LTOXJZWiTfnZKzAg9rMREpRRdcONc4bKS3GoFUD+fIFkrOJQKlkJrpljZmasPVcq4ig/CBT8gaQBGo1qWZyeBAlcGAR5CAnp6OV5/IjJr92SALCcODXMVCWIhVcPEq2oYrcwLnsrfBjEmmQ5LlSAQfnrQcPwpjjM2hDMBjINT9EBhIsJooAWe/ozrXDYWdkJ+5bKSX7fwk3ywosJ3zsdJVuTQHmFaLqBCitiCQPdShgMtdXh2B0+nDi8PJiJ4e2MNWu5xC2BLCQTK6p9a23d/u6u5uMcVAJR4XPjrK20CcyfNVAM4jSSMtRDQPFUquhZ4znKxdqDU2GAPri3qSEYggIXdZytr5lHakgtmcXuO/PD9eAYjpygRgDY16RETGhvMpYisnSnBcMaZC2zEnpCiGtDrxbEzJfsI27Oggwsi2WHN2J2k4QEs15/GyJa6AsFSczlfyznfJQYzgOniWHw6xVcliDj1e8TCmj6QDVgrbjoy14I0kNI0b3drKIA4qxmWcB9hd/hMluNT0S2B25gwZgdM2jNDFI8yhLZGnTYgDyMAjHpTabg5JOxxNMSDZocsY51LFlIp2w2o06dTNfnN6LcPvzJoxlXmA0e5jNkJVKMc5d7ml/zWKBHOc4lqFQhxUK2Ibgz1qtmO0oJmdUTdZYoQ55yG3xUCvLCAQDDIgtyPAkySdJTmiCXc2OR4KDG1LF6Au3B7Qg+Ncxtu7qBXWyEXr8YCYdlAIyKpGnjI5oM2F2YeXs1MxZ4sYu+KMkKXAecAkpPbIMKBguzY9hxMia/S2Rl/58YfPTuvh9/HVB388PS5woRCnv1scO80TRc7gDVQF02g2EkTBxYAQc4xPu10biMRWwvA83d13HlO3bN6t11WVF0LVwPj26hzjTh+forxBxhqZhxc9/djm3dROAgOU0o6yNf0R89JpknHpOcyknBgvqk2RnJ7adhVcuJEpHVSbU6bxdtyeRn0YrPORoafbUTcMLLfdvSYmq7bzmmmI1UMLJcZElHJM4XgaegQGjDXaEiywB/5aLGlFPsMzXZHM8nRkG4DH51fG+LgdY6EO29VxOxu60prdHjLg7ZPeJMplebo+TcBJGzVRSGB3cjigaPbBE8KQREFhKWIiQLt7/m1bnsdXMF7UOXENXzmJaIETn78+P504EnOgWU2JwYxArIUIE0RFTI+mzb6bLe+l1JN8gEL3L12tPqCHiRzBCRw1IX3IdNM/oofpKpPwZkQ+xtDxp18l9fj+/eNyYPexQrSdGClm2W3j5iSRduMsdy/bfttlCOOV58iyY461T9XUvmR3lvbRWxpjw5YRBiDam1i6kU8R13dfv/vm4zKM6Ml4wawgFFn7eEgPpnsfstyVBU0FZWahS5Ry6unRLpl9gZ3MKr3bcTXy3L6qSdLSWhiL1y1yfP7Zuz/fHwkwJAPzLlUvB6StpmtoQEkgQ4pmfhzRA1fTzTyHA7qIzkHlqZ0TBraYQ8QARpkoJlVwjWUpxHbUWLa1zoq7F99+u40ZiCYtZoctwTTK7Sv0jMK+udwHTP9qBrglYnLrINKceu6EmDE27JooMBypCFuiYEQVvr6uEYdFOp/fjJe337yJnHOxniXOBiPBnkHuGUbTpsQEv41X6rED2dONsYdTs/ry+oRDIHIcMpIRltf35+YGjYFCJCCmkDA4xudcNyaNJZfTPV9f//Ehp0+gZttFAE5HTqUYQkBWBArhh8+9m4RhoUOv+VPJtW6O0M2LZRwygpIFEMvLN8UwHRxbtc+m66tA34XDkgCCx8O2HX78l4+yjWBtOiQQpnshpsjCNAEACOP8SisKRs/SwobM82jZiHm4GcexjHRbwKaCTlTcve/GHmNjT9PLDGQ66sWhSKvUj7cMLz9dTw+n0+m81fn++HKhYINbV7aGMNOJGQlTsc2SK9R8aUJeRWbmiMzMdqgZjAl6smjEFqiZ5c099MgMicgqBDC4bXBAiFAc71Tr+nh6/P7h8YwCwaVtJXv6MgNwdqLV7lVgLhnZ/0RMScZuGQh9RejoLcgVs3qM2FnLICwBgYq2vpLlrbMGIjzG8Vr6SZ1PTyvMnpjetUroogC3JsQAI5gx+fP+eAenm6LzbbU81sO7LkxBhKPtSO38hp3mMYsibSS1nREbMs6IEA+wdN1d2K59zzlG7fPiPZnP6N/BXV4avzJ6jqp7MTVeiOqM3Nb2Fj/H7BJCLcNwu7nhMF0uMcxlczxxAWutyYwxo+9/I/bp5p7KOPe3AfROafalAdvqmL3wRhMhx250jnE4td91BFrGD83+6MWh0PmmGbO0b40ANC7zLz3G2uaNyys6uKvI3TlOJXN6eOSSm8SY3zNVBzxbUXtG34Y9MC1Cu2nc2szM+bWas6d7rX3287HNqLv+bboH4XZLg60JxbybHWLyK5O+8EVhAUg5LG9q5nKE+7UGnYED+aol21Y89qmXKdvsEzkkZlc8aSBAPXPSAgqJTZEtvRIoJvZJ6d0nRe6ToJ5j1lJd8QNBYIhQsHq2Obh9/ZUsz5TROifgqqAxvX57rD+/K8FAC6UJVbf2mQFLPUidSXrmTe2GsPbvePaRLoNH5NM5DA8okY6BsxFLHX7o6vvuCY1BpyRPJaSbgD7yuqjMBBEgBHnQQhIQo98OxImaO8B37NOwPnYXXhLe1seNbmpEASexiBEe6WGgeRoYTsgR0xvX7zMA6W0XnWLvMjqSwLwME9lM2hLajdw7B4izKD0T+gHKkh3LGW59PMgynRHUUdsShNXUgneIIvf2MFwOOtQB3s315W0mQUON/gyiFESka3fg+sLAXyZZ57Vur2vk1dnt0p2tbhl2fHmIaUGXZLb1FAZQGxeXDxElNxKZwwjeIcJ8zxN3ezZShakgJOA2RM4OG/tkvS/OKQrLZhoYFF3ZUZG6esEi+r0xPUEwARDsgDi0xjI2uaJt64aZrv5Lmtm82QpPz32/RmUaKIBmUjvEdmf15Z1XwVMPArbKuMFGbIcfrwLThkTSFVZUQ+TQ5kWIqiVjK8XlbgLZLbjmmEVeOiWzZ88QXWj2qNvH7PZxhx6IdOB0tW1sBMGBHtdcv3x93guB9/RQYE0QXlv2BGyOEComx283GSCTkiOYIKrvfUyXMnZPVINoFaLf0TG99f0+mK3GzTsYg5qMjkk8PeUALJbD+3wH5vu5ujwzSkYEDfVskkygeqgNntOXmEpNI5/LcfnCfe3M1/RVtipdDh1yJQfR9Chg4OHdZzHfddChJc2YsWGmGBDT62hb3OzBWqPF6ITX7sGIgHY0v4/EG/0mjJgizFxUszzu0EQ4OEiGNxYEv/hFaGM8z6kiE3apmgzk/nYlbtsYRLUzPlrl7PqkWYe7nDWT2f315CenPLfnu8ursmapbbvCaLVhGIRe3D1FTwZj9xiD0UYjVb9zZB8p2xxJuaay6YuhfP+OxlXR9XIffjAmXTh9lJNx0UXfpGmbA1EEo5+Kh/3oew5ApDaQ4PCAqzxvMw1ZJKmadjjKxhYxTRfz5u0m5ef3KuyN8vR47t2k58AOGLBHbmCUIDNut5wskLthJiwxXA3Vc0zvUborc3SGTMiBsG1pUrqdRafDgXGBi8+t9EUC3tcLkOFYHhKDVmQJ4Pb6xce70S0bbUWZnceF2t8+YnIsnq8zs4D05e1fu1V5dg9Ti9McGvCFhm0k0zT6p++wAATiwwONsRFEUnD8EH66mc44IjRU2LUGqGcCusggU7aYswt2TK8fjB502YtKL3468r37X13Cx2+ur5YlZw/Sf26ZT2vAwyaVtM9f3q6JCttsJQIRU0eaJtguxvNlUJPp7pP2ZVjPctciXHxZ86VEHcxU12sNxBgR05n77As8EIghz1fK5Odj5Zhg1tNSH00FjbkQen0I5jyvqXqb9ta6z7NFmZNqmnICZrDuNCIceritsaP5yZADQNLs3YILDOrQhOMOzPdpiK71Kp3PfPzTy1dXo6WjUhm5GAZjt3R3GvKzQ3/Ot09A692siJvj+eB9GOzSY8AjNmKQLXyaD59t16h9lmt/EUgbh7ZNW5UkvHJhGiuimau4YHxeLtqe9WaOnEvT5bAMH754NwlKx74q0Ig8A8OMVtj53esn3YFB2FFGv5FSUkkCnWHXVk/HyuzZ8HDX4YnQLnaGfcQVir8aXgGf20Pqi/v1YFv7i6n2fR2ER7Lmtuq/4+rVV9zDtCXMtoxk9oY64nh/f2NT0S9oKplTD5s3n8Z8f8N+Eycyxj5xO3eM3FrynUueL+5gAhhpIlWWxxnn7x9/vt9UW5f93z0nABe+/UJNOhXg6Jeh9YjF7EomrNMeWXjerL1EAEbevdGuBO1V2DaHyXAESzGCInj446+g7nMA7rMqE7FPIu3Rq4ztvCFyjP1Vf5NmI/3pQj6ZnX5Om3Nlvulq9jwiMrmVHjnvt45lwhbihIjIxtktkTYWn00DmPFUdjmX5HMb2oEDPH+79wt2oTZxGe1p9eUw1rnsTx/FGT0jGcGEuIBgahaVvav65GeaWc9vtwgwL2t5znKfhPdcCj/94Z0xuCg1x23aHfcpiKlUGaGqnsMtLHvrNm+V55tEZ3vndlTj5TWqdLnp2Cf6ns9rn92BLl3NjkDx/HvjuInAxIr7PpsEQjY2tIwwsFXNhv7SCvTLRacfgPTV7em89f7sfnx+EtutVnBnpT8J9wucn/jPvhk1p9s1PwloXuv/B3cm0uihM56tAAAAAElFTkSuQmCC" alt="Kyleigh Rifas" style="width: 150px; height: 150px; border-radius: 50%; filter: grayscale(100%); border: 3px solid var(--cream); opacity: 0; animation: fadeInUp 1s ease-out 0.2s forwards;">
+                <h1 class="hero-title">K. Rifas</h1>
+            </div>
+            <p class="hero-subtitle">Digital Journal</p>
+            <p class="hero-description">A collection of digital artifacts, marketing insights, and editorial experiments.</p>
+            
+            <div class="hero-toc">
+                <div class="toc-item interactive-cursor" onclick="scrollToSection('about')">
+                    <div class="toc-number">01</div>
+                    <div class="toc-title">The Cover Story</div>
+                </div>
+                <div class="toc-item interactive-cursor" onclick="scrollToSection('journal')">
+                    <div class="toc-number">02</div>
+                    <div class="toc-title">The Logbook</div>
+                </div>
+                <div class="toc-item interactive-cursor" onclick="scrollToSection('series')">
+                    <div class="toc-number">03</div>
+                    <div class="toc-title">The Leadership Series</div>
+                </div>
+                <div class="toc-item interactive-cursor" onclick="scrollToSection('info')">
+                    <div class="toc-number">04</div>
+                    <div class="toc-title">The Back Page</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Contents Section -->
+    <section class="contents-section" id="work">
+        <div class="contents-container">
+            <div class="contents-list">
+                <div class="contents-header">
+                    <h2>Contents</h2>
+                    <p>VOLUME 1 • PORTFOLIO EDITION</p>
+                </div>
+                
+                <div class="content-item interactive-cursor" onclick="scrollToSection('about')">
+                    <div class="content-number">01</div>
+                    <h3 class="content-title">The Cover Story</h3>
+                    <p class="content-subtitle">Hero & Introduction</p>
+                </div>
+                
+                <div class="content-item interactive-cursor" onclick="scrollToSection('journal')">
+                    <div class="content-number">02</div>
+                    <h3 class="content-title">The Logbook</h3>
+                    <p class="content-subtitle">Professional Experience</p>
+                </div>
+                
+                <div class="content-item interactive-cursor" onclick="scrollToSection('series')">
+                    <div class="content-number">03</div>
+                    <h3 class="content-title">The Leadership Series</h3>
+                    <p class="content-subtitle">Involvement & Initiatives</p>
+                </div>
+                
+                <div class="content-item interactive-cursor" onclick="scrollToSection('info')">
+                    <div class="content-number">04</div>
+                    <h3 class="content-title">The Back Page</h3>
+                    <p class="content-subtitle">Contacts & Credits</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logbook Section (Experience) -->
+    <section class="logbook-section" id="journal">
+        <div class="logbook-header">
+            <div class="archive-badge">ARCHIVE</div>
+            <h2 class="logbook-title">THE LOGBOOK</h2>
+            <p class="logbook-subtitle">A tactile record of industry experience, creative detours, and editorial fragments.</p>
+        </div>
+
+        <div class="experience-cards">
+            <!-- Sherwin Williams -->
+            <div class="experience-card">
+                <div class="card-header">
+                    <div class="entry-label">PROFESSIONAL ENTRY 01</div>
+                    <h3 class="company-name">Sherwin Williams</h3>
+                    <p class="job-title">COLOR CONSULTANT & SPECIALIST</p>
+                    <p class="date-range">JUNE - AUGUST 2024</p>
+                </div>
+                <p class="experience-description">Curating palettes for high-end residential projects. Bridging the gap between industrial utility and domestic aesthetics. Managed over 400 unique accounts with a focus on color psychology and spatial harmony.</p>
+                <div class="quote-block">
+                    "The red is never just red. It's the memory of a pomegranate in October."
+                </div>
+
+                <div class="toolkit-panel">
+                    <div class="toolkit-header">• TOOLKIT</div>
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>VISUAL MERCHANDISING</span>
+                            <span>90%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>EDITORIAL LAYOUT</span>
+                            <span>85%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>COLOR THEORY</span>
+                            <span>95%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-name">
+                            <span>BRAND NARRATIVE</span>
+                            <span>88%</span>
+                        </div>
+                        <div class="skill-progress">
+                            <div class="skill-fill" style="width: 88%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Padre Pizzeria -->
+            <div class="experience-card">
+                <div class="card-header">
+                    <div class="entry-label">PROFESSIONAL ENTRY 02</div>
+                    <h3 class="company-name">Padre Pizzeria</h3>
+                    <p class="job-title">HOSPITALITY & CHAOS MANAGEMENT</p>
+                    <p class="date-range">JUNE 2020 - JUNE 2022</p>
+                </div>
+                <p class="experience-description">Front-of-house operations in a fast-paced urban environment. Developing the 'soft skills' that no corporate manual can teach: patience under fire and the art of the perfect customer interaction.</p>
+            </div>
+
+            <!-- Port Royal -->
+            <div class="experience-card">
+                <div class="card-header">
+                    <div class="entry-label">PROFESSIONAL ENTRY 03</div>
+                    <h3 class="company-name">Port Royal Ocean Resort</h3>
+                    <p class="job-title">LIFEGUARD & SAFETY SPECIALIST</p>
+                    <p class="date-range">JUNE - AUGUST 2025</p>
+                </div>
+                <p class="experience-description">Monitored pool and surrounding areas to ensure safety, prevent accidents, and enforce facility rules for guests of all ages. Delivered exceptional customer service by assisting guests, answering questions, and addressing concerns professionally.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section class="logbook-section" style="padding: 4rem 4rem;">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="education-box" style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
+                <div class="education-content">
+                    <div class="education-header">EDUCATION</div>
+                    <h3>Bachelor of Science in Business Administration</h3>
+                    <p style="margin: 0.5rem 0;">Organizational Management and Leadership, Marketing Minor</p>
+                    <p style="margin: 0.5rem 0;">University of Arkansas, Sam M. Walton College of Business</p>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">Class of 2026</p>
+                    <div class="verified-badge">VERIFIED ARCHIVE</div>
+                </div>
+                
+                <div class="old-main-image">
+                    <svg viewBox="0 0 400 300" style="width: 100%; height: auto;">
+                        <!-- Sky background -->
+                        <rect width="400" height="300" fill="#1a1a1a"/>
+                        
+                        <!-- Building base -->
+                        <rect x="50" y="180" width="300" height="100" fill="#4a4a4a"/>
+                        
+                        <!-- Main building sections -->
+                        <!-- Left wing -->
+                        <rect x="50" y="160" width="80" height="120" fill="#5a5a5a"/>
+                        <rect x="55" y="165" width="70" height="15" fill="#3a3a3a"/>
+                        
+                        <!-- Center building -->
+                        <rect x="150" y="120" width="100" height="160" fill="#6a6a6a"/>
+                        
+                        <!-- Right wing -->
+                        <rect x="270" y="160" width="80" height="120" fill="#5a5a5a"/>
+                        <rect x="275" y="165" width="70" height="15" fill="#3a3a3a"/>
+                        
+                        <!-- Tower/Spire -->
+                        <rect x="185" y="60" width="30" height="60" fill="#555555"/>
+                        <polygon points="200,40 185,60 215,60" fill="#444444"/>
+                        <rect x="195" y="30" width="10" height="10" fill="#333333"/>
+                        
+                        <!-- Clock face -->
+                        <circle cx="200" cy="90" r="12" fill="#e0e0e0"/>
+                        <circle cx="200" cy="90" r="10" fill="#2a2a2a"/>
+                        <line x1="200" y1="90" x2="200" y2="84" stroke="#e0e0e0" stroke-width="1.5"/>
+                        <line x1="200" y1="90" x2="204" y2="90" stroke="#e0e0e0" stroke-width="1"/>
+                        
+                        <!-- Windows - Left wing -->
+                        <rect x="65" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="85" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="105" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="65" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="85" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="105" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="65" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="85" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="105" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <!-- Windows - Center -->
+                        <rect x="165" y="145" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="185" y="145" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="205" y="145" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="225" y="145" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <rect x="165" y="175" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="185" y="175" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="205" y="175" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="225" y="175" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <rect x="165" y="205" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="185" y="205" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="205" y="205" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="225" y="205" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <rect x="165" y="235" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="185" y="235" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="205" y="235" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="225" y="235" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <!-- Windows - Right wing -->
+                        <rect x="285" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="305" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="325" y="185" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="285" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="305" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="325" y="215" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="285" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="305" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        <rect x="325" y="245" width="12" height="18" fill="#2a2a2a"/>
+                        
+                        <!-- Main entrance -->
+                        <rect x="190" y="240" width="20" height="40" fill="#1a1a1a"/>
+                        <path d="M 190 240 Q 200 235 210 240" fill="none" stroke="#3a3a3a" stroke-width="2"/>
+                        
+                        <!-- Architectural details - cornices -->
+                        <rect x="50" y="155" width="80" height="5" fill="#7a7a7a"/>
+                        <rect x="150" y="115" width="100" height="5" fill="#7a7a7a"/>
+                        <rect x="270" y="155" width="80" height="5" fill="#7a7a7a"/>
+                        
+                        <!-- Steps -->
+                        <rect x="170" y="270" width="60" height="3" fill="#5a5a5a"/>
+                        <rect x="165" y="273" width="70" height="3" fill="#4a4a4a"/>
+                        <rect x="160" y="276" width="80" height="4" fill="#3a3a3a"/>
+                        
+                        <!-- Ground/lawn -->
+                        <rect x="0" y="280" width="400" height="20" fill="#2a2a2a"/>
+                        
+                        <!-- Text label -->
+                        <text x="200" y="295" font-family="serif" font-size="10" fill="#cccccc" text-anchor="middle" font-style="italic">Old Main • Est. 1875</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="logbook-section" style="padding: 4rem 4rem; background: var(--dark-brown);">
+        <div style="max-width: 1200px; margin: 0 auto;">
+            <div class="logbook-header" style="margin-bottom: 3rem;">
+                <h2 class="logbook-title" style="text-align: center;">SKILLS & EXPERTISE</h2>
+                <p class="logbook-subtitle" style="text-align: center;">A comprehensive toolkit for modern business challenges.</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem;">
+                <!-- Professional Skills -->
+                <div class="skill-category-box">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bright-red); margin-bottom: 1.5rem; text-align: center;">PROFESSIONAL</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag-item">Networking</span>
+                        <span class="skill-tag-item">Team Collaboration</span>
+                        <span class="skill-tag-item">Conflict Resolution</span>
+                        <span class="skill-tag-item">Public Speaking</span>
+                        <span class="skill-tag-item">Project Management</span>
+                        <span class="skill-tag-item">Critical Thinking</span>
+                    </div>
+                </div>
+
+                <!-- Technical Skills -->
+                <div class="skill-category-box">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bright-red); margin-bottom: 1.5rem; text-align: center;">TECHNICAL</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag-item">Salesforce</span>
+                        <span class="skill-tag-item">SQL</span>
+                        <span class="skill-tag-item">Microsoft Office Suite</span>
+                    </div>
+                </div>
+
+                <!-- Business Skills -->
+                <div class="skill-category-box">
+                    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--bright-red); margin-bottom: 1.5rem; text-align: center;">BUSINESS</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag-item">Customer Relationship Management</span>
+                        <span class="skill-tag-item">Sales Strategy</span>
+                        <span class="skill-tag-item">Brand Development</span>
+                        <span class="skill-tag-item">Marketing Analytics</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Series Section -->
+    <section class="series-section" id="series">
+        <div class="series-header">
+            <p class="volume-tag">VOLUME III</p>
+            <h2 class="series-title">THE SERIES</h2>
+        </div>
+
+        <div class="magazine-grid">
+            <!-- Alpha Omicron Pi -->
+            <div class="magazine-cover interactive-cursor">
+                <div class="placeholder-tag">FEATURE 01</div>
+                <div>
+                    <h3 class="cover-title">LEADERS</h3>
+                    <p class="cover-edition">KYLEIGH RIFAS EDITION</p>
+                    <div class="cover-image-placeholder" style="background: linear-gradient(135deg, rgba(201,56,71,0.1) 0%, transparent 100%);">
+                        <span style="font-size: 4rem;">🍸</span>
+                    </div>
+                    <p class="cover-subtitle">THE INTEGRITY ISSUE<br>ALPHA OMICRON PI</p>
+                    <p style="font-size: 0.8rem; line-height: 1.6; margin-bottom: 1rem;">Culture Reimagined: Inside the strategy that transformed a chapter's legacy from the ground up.</p>
+                    <p style="font-size: 0.7rem; font-style: italic;">THE VP DIARIES</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">ISSUE NO. 01</div>
+            </div>
+
+            <!-- S.A.L.E.S. -->
+            <div class="magazine-cover interactive-cursor">
+                <div class="placeholder-tag">FEATURE 02</div>
+                <div>
+                    <h3 class="cover-title" style="color: white;">BAZAAR</h3>
+                    <p class="cover-edition">SALES & MANAGEMENT EXCELLENCE</p>
+                    <div class="cover-image-placeholder">
+                        <span style="font-size: 4rem;">🎲</span>
+                    </div>
+                    <p class="cover-subtitle">THE SALES SPECIAL<br>STRATEGIC NETWORKING</p>
+                    <p style="font-size: 0.8rem; line-height: 1.6; margin-bottom: 1rem;">MENTORSHIP: Building the next generation of industry titans.</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">ISSUE NO. 92</div>
+            </div>
+
+            <!-- EMPOWER -->
+            <div class="magazine-cover interactive-cursor">
+                <div class="placeholder-tag">FEATURE 03</div>
+                <div>
+                    <h3 class="cover-title">EMPOWER</h3>
+                    <p class="cover-edition">THE MENTORING EDITION</p>
+                    <p class="cover-subtitle">Leadership <span style="color: var(--bright-red); font-weight: 700; font-size: 1.1rem;">in Bloom</span></p>
+                    <p style="font-size: 0.8rem; line-height: 1.6; margin-bottom: 1rem;">THE MENTORING MANUAL: Honoring the societies that shape our collective future through service.</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">AUGUST 2023 – DECEMBER 2023</div>
+            </div>
+
+            <!-- Order of Omega -->
+            <div class="magazine-cover interactive-cursor">
+                <div>
+                    <h3 class="cover-title" style="font-size: 2rem;">ORDER OF OMEGA</h3>
+                    <p class="cover-edition">GREEK HONOR SOCIETY</p>
+                    <div class="cover-image-placeholder">
+                        <span style="font-size: 4rem;">🏆</span>
+                    </div>
+                    <p class="cover-subtitle">Recognizing academic excellence and leadership within the Greek community.</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">NOVEMBER 2023 – PRESENT</div>
+            </div>
+
+            <!-- Student Society -->
+            <div class="magazine-cover interactive-cursor">
+                <div>
+                    <h3 class="cover-title" style="font-size: 1.8rem;">STUDENT SOCIETY</h3>
+                    <p class="cover-edition">MANAGEMENT EXCELLENCE</p>
+                    <div class="cover-image-placeholder">
+                        <span style="font-size: 4rem;">📈</span>
+                    </div>
+                    <p class="cover-subtitle">Mentoring management majors in future success through professional development and networking.</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">AUGUST 2024 – PRESENT</div>
+            </div>
+
+            <!-- Projects -->
+            <div class="magazine-cover interactive-cursor">
+                <div>
+                    <h3 class="cover-title" style="font-size: 1.6rem;">BEAUTIFUL BY DREW</h3>
+                    <p class="cover-edition">BRAND PROJECT</p>
+                    <div class="cover-image-placeholder">
+                        <span style="font-size: 4rem;">💄</span>
+                    </div>
+                    <p class="cover-subtitle">Strategic shopper marketing campaign utilizing HCD methodology, competitive analysis, and creative brand positioning.</p>
+                    <div class="barcode"></div>
+                </div>
+                <div class="cover-details">AUG-NOV 2025</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="info">
+        <div class="contact-container">
+            <div class="contact-left">
+                <p class="contact-header-small">EDITORIAL CONTACT PORTFOLIO</p>
+                <h2 class="contact-main-title">FOR INQUIRIES &<br>COLLABORATIONS</h2>
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem; margin: 2rem 0;">
+                    <a href="/cdn-cgi/l/email-protection#610a180d04080609130807001221060c00080d4f020e0c" class="contact-button"><span class="__cf_email__" data-cfemail="e48f9d88818d838c968d828597a48389858d88ca878b89">[email&#160;protected]</span></a>
+                    <a href="tel:7577730290" class="contact-button">(757) 773-0290</a>
+                </div>
+                
+                <div style="margin-top: 3rem; font-size: 0.85rem; line-height: 1.8;">
+                    <p style="font-weight: 600;">KYLEIGH RIFAS STUDIO</p>
+                    <p>NYC / VA / LONDON</p>
+                    <p>ESTABLISHED 1994</p>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 0.5rem;">PRICE</p>
+                    <p style="font-size: 2.5rem; font-weight: 700;">$7.77</p>
+                </div>
+            </div>
+            
+            <div class="contact-right">
+                <h3 class="classifieds-header">Get In Touch</h3>
+                
+                <form class="contact-form" onsubmit="handleSubmit(event)">
+                    <div class="form-group">
+                        <label for="name">NAME</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">EMAIL</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">PHONE (OPTIONAL)</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">MESSAGE</label>
+                        <textarea id="message" name="message" rows="4" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-button">SEND MESSAGE</button>
+                </form>
+                
+                <div class="classified-category" style="margin-top: 3rem;">
+                    <p class="category-title">SOCIAL ARCHIVE</p>
+                    <a href="#" class="classified-link">LINKEDIN</a>
+                </div>
+                
+                <div class="copyright-notice">
+                    Kyleigh Rifas reserves the right to create, destroy, and reinvent. All works published are under strict copyright of the artist.
+                </div>
+                
+                <div class="reserved-space">
+                    RESERVED SPACE
+                </div>
+                
+                <div style="margin-top: 2rem; text-align: right;">
+                    <div style="display: inline-block; border: 2px solid var(--dark-text); padding: 1rem;">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 0.25rem;">
+                            <div style="height: 3px; width: 40px; background: var(--dark-text);"></div>
+                            <div style="height: 3px; width: 40px; background: var(--dark-text);"></div>
+                            <div style="height: 3px; width: 40px; background: var(--dark-text);"></div>
+                            <div style="height: 3px; width: 40px; background: var(--dark-text);"></div>
+                            <div style="height: 3px; width: 40px; background: var(--dark-text);"></div>
+                        </div>
+                        <p style="font-size: 0.7rem; margin-top: 0.5rem;">9 780123 456789</p>
+                    </div>
+                    <p style="font-size: 0.65rem; margin-top: 0.5rem;">VOL. 04 NO. 2024<br>PRINTED IN USA</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <p>Kyleigh Rifas</p>
+                <p style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 0.5rem;">CREATIVE DIRECTOR & EDITORIAL CONSULTANT</p>
+            </div>
+            
+            <div class="footer-meta">
+                <p>INQUIRIES</p>
+                <p style="margin-top: 0.5rem;">CONTACT THE EDITOR</p>
+            </div>
+            
+            <div class="footer-location">
+                <p class="footer-tagline">The Journal of a Marketer</p>
+                <p style="font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase;">PARIS — NEW YORK — DIGITAL</p>
+            </div>
+        </div>
+        
+        <div class="footer-copyright">
+            © 1994-2024 RIFAS EDITORIAL GROUP. ALL RIGHTS RESERVED. • PRINTED IN NYC
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Hide scroll indicator after scroll
+        window.addEventListener('scroll', function() {
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (window.scrollY > 100) {
+                scrollIndicator.style.opacity = '0';
+            } else {
+                scrollIndicator.style.opacity = '1';
+            }
+        });
+
+        // Animate skill bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillFills = entry.target.querySelectorAll('.skill-fill');
+                    skillFills.forEach(fill => {
+                        const width = fill.style.width;
+                        fill.style.width = '0%';
+                        setTimeout(() => {
+                            fill.style.width = width;
+                        }, 100);
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.toolkit-panel').forEach(panel => {
+            observer.observe(panel);
+        });
+
+        // Add hover effects to magazine covers
+        document.querySelectorAll('.magazine-cover').forEach(cover => {
+            cover.addEventListener('click', function() {
+                this.style.transform = 'translateY(-10px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            });
+        });
+
+        // Interactive polaroids
+        document.querySelectorAll('.polaroid').forEach(polaroid => {
+            polaroid.addEventListener('click', function() {
+                this.style.zIndex = '999';
+                this.style.transform = 'rotate(0deg) scale(1.2)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                    this.style.zIndex = '';
+                }, 500);
+            });
+        });
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Create success message
+            let successMsg = form.querySelector('.form-success');
+            if (!successMsg) {
+                successMsg = document.createElement('div');
+                successMsg.className = 'form-success';
+                successMsg.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+                form.insertBefore(successMsg, form.firstChild);
+            }
+            
+            // Show success message
+            successMsg.classList.add('show');
+            
+            // Reset form
+            form.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                successMsg.classLi
